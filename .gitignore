@@ -1,0 +1,26 @@
+# Dependencias
+node_modules/
+**/node_modules/
+
+# Archivos de compilación y Next.js
+.next/
+dist/
+build/
+out/
+
+# Variables de entorno (Seguridad)
+.env
+*.env
+.env.local
+.env.production
+
+# Logs
+*.log
+npm-debug.log*
+
+# Docker
+.dockerignore
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
