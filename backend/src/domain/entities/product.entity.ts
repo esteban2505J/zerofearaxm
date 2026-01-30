@@ -39,5 +39,33 @@ export class Product {
         public imageUrl: string | null,
         public categoryId: string,
         public variants: ProductVariant[],
-    ) { }
+    ) {
+
+        if (this.price <= 0) {
+            throw new Error('Price must be greater than 0');
+        }
+    }
+
+    // --- BUSINESS LOGIC (BEHAVIOR) ---
+
+    // 1. Calculate total stock (Not saved in DB, calculated on the fly)
+    get totalStock(): number {
+        // Sum the stock of all variants
+        return this.variants.reduce((acc, variant) => acc + variant.stock, 0);
+    }
+
+    // 2. Check availability
+    hasStock(): boolean {
+        return this.totalStock > 0;
+    }
+
+    // 3. Add variant safely
+    addVariant(variant: ProductVariant): void {
+        // Rule: No duplicate SKU
+        const exists = this.variants.some(v => v.sku === variant.sku);
+        if (exists) {
+            throw new Error(`A variant with the SKU ${variant.sku} already exists`);
+        }
+        this.variants.push(variant);
+    }
 }
