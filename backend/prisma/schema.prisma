@@ -1,32 +1,101 @@
-// 1. Configuración del generador (Crea el código TypeScript para tu Back)
+// 1. Configuración del generador (Crea el código TypeScript para el Back)
 generator client {
   provider = "prisma-client-js"
 }
 
-// 2. Conexión a la base de datos (Lee la URL de tu archivo .env)
+// 2. Conexión a la base de datos (URL en prisma.config.ts para Prisma 7)
 datasource db {
   provider = "postgresql"
 }
 
-model Product {
-  id          String   @id @default(uuid())
-  name        String   @unique
-  description String?
-  price       Float
-  stock       Int      @default(0)
-  imageUrl    String?
-  
-  // Relación con Categoría
-  categoryId  String
-  category    Category @relation(fields: [categoryId], references: [id])
-  
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+// ---------------------------------------------------------------------------
+// Enums (normalización: valores controlados para tallas)
+// ---------------------------------------------------------------------------
+
+// ONE = productos sin talla (ej. suplementos); resto = tallas camiseta
+enum Size {
+  ONE
+  XS
+  S
+  M
+  L
+  XL
+  XXL
 }
+
+// ---------------------------------------------------------------------------
+// Categoría
+// ---------------------------------------------------------------------------
 
 model Category {
   id        String    @id @default(uuid())
   name      String    @unique
-  products  Product[] // Una categoría tiene muchos productos
+  products  Product[]
   createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+// ---------------------------------------------------------------------------
+// Producto (catálogo genérico; stock y SKU en variantes)
+// ---------------------------------------------------------------------------
+
+model Product {
+  id          String   @id @default(uuid())
+  name        String   @unique // Único en el catálogo
+  slug        String   @unique // URLs amigables y SEO
+  description String?
+  price       Float    // Precio base; variantes pueden sobrescribir con price
+  purchasePrice Float? // Costo de compra (opcional, para márgenes/analytics)
+  imageUrl    String?  // Imagen principal (o primera de la galería)
+
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+
+  variants    ProductVariant[]
+  images      ProductImage[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([categoryId])
+  @@index([slug])
+}
+
+// ---------------------------------------------------------------------------
+// Variante de producto (talla, SKU, stock por variante)
+// ---------------------------------------------------------------------------
+
+model ProductVariant {
+  id            String   @id @default(uuid())
+  sku           String   @unique // Identificador único para inventario e integraciones
+  size          Size
+  stock         Int      @default(0)
+  price         Float?   // Si null, usar Product.price
+  purchasePrice Float?   // Costo por variante (opcional)
+
+  productId     String
+  product       Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([productId])
+  @@index([sku])
+}
+
+// ---------------------------------------------------------------------------
+// Imágenes del producto (normalización: 1 producto → N imágenes)
+// ---------------------------------------------------------------------------
+
+model ProductImage {
+  id        String   @id @default(uuid())
+  url       String
+  altText   String?  // Accesibilidad y SEO
+  sortOrder Int      @default(0) // Orden en galería
+  isPrimary Boolean  @default(false) // Imagen principal
+
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
 }
