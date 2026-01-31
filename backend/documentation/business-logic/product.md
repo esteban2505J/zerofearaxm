@@ -218,3 +218,4 @@ HTTP request
 4. **Slug:** Implement slug generation (e.g. from name) and ensure uniqueness on create/update.
 
 This keeps the Product domain aligned with business expectations, normalization, and Clean Architecture boundaries.
+  

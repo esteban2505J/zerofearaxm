@@ -1,26 +1,13 @@
-/**
- * 
-model ProductImage {
-  id        String   @id @default(uuid())
-  url       String
-  altText   String?  // Accesibilidad y SEO
-  sortOrder Int      @default(0) // Orden en galería
-  isPrimary Boolean  @default(false) // Imagen principal
+export class Category {
+  constructor(
+    public id: string,
+    public name: string,
+    public slug?: string,
 
-  productId String
-  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-
-  @@index([productId])
-}
-
-*/
-
-export class ProductImage {
-    constructor(
-        public id: string,
-        public url: string,
-        public altText?: string,
-        public sortOrder: number = 0,
-        public isPrimary: boolean = false,
-    ) { }
+    // Opcionales: Solo si tu lógica de negocio las necesita.
+    // Por lo general, 'createdAt' y 'updatedAt' se quedan en la DB/Infraestructura
+    // y no se traen al dominio a menos que vayas a ordenar por fecha o mostrar "Nuevo".
+    public createdAt?: Date,
+    public updatedAt?: Date,
+  ) { }
 }
