@@ -1,0 +1,129 @@
+{
+  "info": {
+    "name": "ZeroFear E-Commerce API",
+    "description": "Complete API testing collection for ZeroFear E-Commerce",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "Create Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Polo Shirt Premium\",\n  \"description\": \"High quality polo shirt made from 100% cotton\",\n  \"price\": 49.99,\n  \"purchasePrice\": 20.0,\n  \"categoryId\": \"cat-001\",\n  \"imageUrl\": \"https://example.com/polo-shirt.jpg\",\n  \"variants\": [\n    {\n      \"sku\": \"POLO-001-XS\",\n      \"size\": \"XS\",\n      \"stock\": 10,\n      \"price\": 49.99\n    },\n    {\n      \"sku\": \"POLO-001-S\",\n      \"size\": \"S\",\n      \"stock\": 15,\n      \"price\": 49.99\n    },\n    {\n      \"sku\": \"POLO-001-M\",\n      \"size\": \"M\",\n      \"stock\": 20,\n      \"price\": 49.99\n    },\n    {\n      \"sku\": \"POLO-001-L\",\n      \"size\": \"L\",\n      \"stock\": 18,\n      \"price\": 49.99\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/products",
+              "host": ["{{base_url}}"],
+              "path": ["products"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/products",
+              "host": ["{{base_url}}"],
+              "path": ["products"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Product By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/products/{{product_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["products", "{{product_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Product By Slug",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/products/slug/{{product_slug}}",
+              "host": ["{{base_url}}"],
+              "path": ["products", "slug", "{{product_slug}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Product",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Polo Shirt Premium V2\",\n  \"description\": \"Updated high quality polo shirt\",\n  \"price\": 59.99,\n  \"purchasePrice\": 25.0\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/products/{{product_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["products", "{{product_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Product",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/products/{{product_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["products", "{{product_id}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "product_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "product_slug",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}

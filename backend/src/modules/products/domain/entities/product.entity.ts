@@ -21,7 +21,7 @@ export class Product {
         if (this.price <= 0) {
             throw new Error('Price must be greater than 0');
         }
-    }
+    }   
 
     // --- BUSINESS LOGIC (BEHAVIOR) ---
 

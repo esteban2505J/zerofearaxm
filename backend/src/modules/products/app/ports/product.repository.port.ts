@@ -7,6 +7,7 @@ import { ProductVariant } from 'src/modules/products/domain/entities/productVari
  * No framework or DB details here — only domain entities.
  */
 export interface IProductRepository {
+    
     findAll(): Promise<Product[]>;
 
     findById(id: string): Promise<Product | null>;
