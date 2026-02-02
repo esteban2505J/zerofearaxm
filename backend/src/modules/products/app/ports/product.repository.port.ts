@@ -1,5 +1,5 @@
-import { Product } from '../entities/product.entity';
-import { ProductVariant } from '../entities/productVariant.entity';
+import { Product } from 'src/modules/products/domain/entities/product.entity';
+import { ProductVariant } from 'src/modules/products/domain/entities/productVariant.entity';
 
 /**
  * Port (interface) for Product persistence.
