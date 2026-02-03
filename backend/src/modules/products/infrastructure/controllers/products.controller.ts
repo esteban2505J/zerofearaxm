@@ -73,7 +73,7 @@ export class ProductsController {
     return product;
   }
 
-  @Post()
+  @Post('/create')
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Create a new product' })
   @ApiBody({ type: CreateProductDto })
